@@ -1,6 +1,12 @@
 #!/bin/bash
 log_step "Ensuring apt is setup"
 
+log_trace 'Installing out of date wget :scream:'
+sudo apt --yes install wget
+
+log_trace 'Accepting ms key'
+wget -O - https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
 log_trace 'Linking repository sources'
 sudo ln -sf "$DOTFILES/apt/sources.list" "/etc/apt/sources.list"
 sudo ln -sf "$DOTFILES/apt/preferences" "/etc/apt/preferences"
@@ -11,6 +17,6 @@ sudo apt --yes full-upgrade
 sudo apt --yes autoremove
 
 log_trace 'Installing base debian tools'
-sudo apt --yes install wget unzip jq exa procps
+sudo apt --yes install unzip jq exa procps
 
 log_message 'Apt is setup'
